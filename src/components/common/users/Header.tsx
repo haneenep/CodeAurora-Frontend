@@ -24,13 +24,13 @@ const Header = () => {
 
         {/* Navigation Links */}
         <div className="hidden md:flex items-center space-x-14">
-          <a href="/" className="text-gray-700 text-lg hover:text-orange-400 transition-colors">
+          <a href="/" className="text-gray-700 hover:text-orange-400 transition-colors">
             Home
           </a>
-          <a href="/problems" className="text-gray-700 text-lg hover:text-orange-400 transition-colors">
+          <a href="/problems" className="text-gray-700 hover:text-orange-400 transition-colors">
             Problems
           </a>
-          <a href="/community" className="text-gray-700 text-lg hover:text-orange-400 transition-colors">
+          <a href="/community" className="text-gray-700 hover:text-orange-400 transition-colors">
             Community
           </a>
         </div>
@@ -49,11 +49,11 @@ const Header = () => {
             )}
           </button>
 
-          <button className="px-4 py-2 text-orange-400 text-lg hover:bg-orange-100 rounded-md transition-colors">
+          <button className="px-4 py-2 text-orange-400 hover:bg-orange-100 rounded-md transition-colors">
             Sign In
           </button>
           
-          <button className="px-4 py-2 bg-orange-400 text-lg text-white rounded-md hover:bg-orange-300 transition-colors">
+          <button className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-300 transition-colors">
             Sign Up
           </button>
         </div>
