@@ -1,18 +1,15 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
+import { useTheme } from '../../../context/ThemeContext';
 
 const Header = () => {
 
-    const [darkMode,SetDarkMode] = useState(false);
-
-    const toggleTheme = () => {
-        SetDarkMode(!darkMode)
-    }
+  const { theme,toggleTheme } = useTheme();
 
   return (
 
     <>
-    <nav className="bg-white shadow-md px-6 py-6">
+    <nav className="dark:bg-black shadow-md px-6 py-6">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         
         {/* logo */}
@@ -42,7 +39,7 @@ const Header = () => {
             className="p-2 rounded-full hover:bg-gray-100 transition-colors"
             aria-label="Toggle theme"
           >
-            {darkMode ? (
+            {theme === "dark" ? (
               <Sun className="w-5 h-5 text-gray-600" />
             ) : (
               <Moon className="w-5 h-5 text-gray-600" />
