@@ -39,7 +39,7 @@ const Footer = () => {
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     Company History
@@ -48,7 +48,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -58,7 +58,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     Employee Handbook
@@ -67,7 +67,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -83,7 +83,7 @@ const Footer = () => {
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     Web Development
@@ -92,7 +92,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -102,7 +102,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -112,7 +112,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -128,7 +128,7 @@ const Footer = () => {
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -138,7 +138,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     Conference Notes
@@ -147,7 +147,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -157,7 +157,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -167,7 +167,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     Upcoming Events
@@ -182,7 +182,7 @@ const Footer = () => {
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -192,7 +192,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-700 transition hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -205,7 +205,7 @@ const Footer = () => {
                     className="group flex justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
                     href="#"
                   >
-                    <span className="text-gray-700 transition group-hover:text-gray-700/75">
+                    <span className="text-gray-700 transition group-hover:text-orange-600">
                       {" "}
                       Live Chat{" "}
                     </span>
@@ -227,7 +227,7 @@ const Footer = () => {
                   href="#"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-teal-700 transition hover:text-teal-700/75"
+                  className="text-teal-700 transition hover:text-orange-600"
                 >
                   <span className="sr-only">Facebook</span>
                   <svg
@@ -250,7 +250,7 @@ const Footer = () => {
                   href="#"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-teal-700 transition hover:text-teal-700/75"
+                  className="text-teal-700 transition hover:text-orange-600"
                 >
                   <span className="sr-only">Instagram</span>
                   <svg
@@ -273,7 +273,7 @@ const Footer = () => {
                   href="#"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-teal-700 transition hover:text-teal-700/75"
+                  className="text-teal-700 transition hover:text-orange-600"
                 >
                   <span className="sr-only">Twitter</span>
                   <svg
@@ -292,7 +292,7 @@ const Footer = () => {
                   href="#"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-teal-700 transition hover:text-teal-700/75"
+                  className="text-teal-700 transition hover:text-orange-600"
                 >
                   <span className="sr-only">GitHub</span>
                   <svg
@@ -315,7 +315,7 @@ const Footer = () => {
                   href="#"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-teal-700 transition hover:text-teal-700/75"
+                  className="text-teal-700 transition hover:text-orange-600"
                 >
                   <span className="sr-only">Dribbble</span>
                   <svg
