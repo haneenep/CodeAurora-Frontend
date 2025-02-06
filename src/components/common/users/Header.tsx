@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { ModeToggle } from '@/components/ui/mode-toggler';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,12 +34,12 @@ const Header = () => {
           <ModeToggle />
           
           <div className="hidden md:flex items-center space-x-4">
-            <a href="/signin" className="px-4 py-2 text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-400/10 rounded-md transition-colors">
+            <Link to={"/signin"} className="px-4 py-2 text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-400/10 rounded-md transition-colors">
               Sign In
-            </a>
-            <a href="/signup" className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors">
+            </Link>
+            <Link to={"/signup"} className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors">
               Sign Up
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}

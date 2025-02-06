@@ -65,3 +65,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer base {
+  body {
+    @apply bg-[#1A1A1A];
+  }
+}
+
+.tech-icon {
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}

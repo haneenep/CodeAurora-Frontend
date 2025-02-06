@@ -51,7 +51,11 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			}
-  		}
+  		},
+		  backgroundImage: {
+			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+		  },
+		
   	}
   },
   plugins: [require("tailwindcss-animate")],
