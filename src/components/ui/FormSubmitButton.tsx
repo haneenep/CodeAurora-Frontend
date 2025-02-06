@@ -6,7 +6,7 @@ interface ButtonTypeProps {
     type ?: "button" | "submit" | "reset";
 }
 
-const Button : FC<ButtonTypeProps>= ({children,type = "button"}) => {
+const FormSubmitButton : FC<ButtonTypeProps>= ({children,type = "button"}) => {
   return (
     <StyledWrapper>
       <button type={type}>{children}</button>
@@ -44,4 +44,4 @@ const StyledWrapper = styled.div`
     transition: 100ms;
   }`;
 
-export default Button;
+export default FormSubmitButton;

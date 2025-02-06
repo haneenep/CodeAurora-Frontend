@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import FormSubmitButton from "../ui/FormSubmitButton";
 
 interface Tech {
   name: string;
@@ -45,7 +46,12 @@ const calculateMovement = (
   };
 };
 
-const Box: React.FC<BoxProps> = ({ position, tech, delay = 0, mousePosition }) => {
+const Box: React.FC<BoxProps> = ({
+  position,
+  tech,
+  delay = 0,
+  mousePosition,
+}) => {
   const [mounted, setMounted] = useState(false);
   const basePosition = useRef(position);
   const [currentPosition, setCurrentPosition] = useState(position);
@@ -147,7 +153,7 @@ const IntroSection: React.FC = () => {
       onMouseMove={handleMouseMove}
       className="relative w-full h-screen overflow-hidden bg-gray-50"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-500 via-slate-900 to-gray-900" />
       <div
         className="absolute inset-0 opacity-30"
         style={{
@@ -170,20 +176,18 @@ const IntroSection: React.FC = () => {
         <h1 className="text-7xl font-bold mb-8 relative">
           <span className="absolute -inset-x-20 inset-y-0 bg-gradient-to-r from-orange-500/20 to-red-500/20 blur-3xl" />
           <span className="relative">
-            <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-              Achieve mastery
+            <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">
+            Elevate Your Skills,
             </span>
             <br />
-            <span className="text-white">through challenge</span>
+            <span className="text-white">Conquer Every Challenge.</span>
           </span>
         </h1>
         <p className="text-gray-300 max-w-2xl mb-12 text-xl leading-relaxed">
-          Improve your development skills by training with your peers on code
-          kata that continuously challenge and push your coding practice.
+          Improve your development skills by training with your peers on
+          CodeAurora that continuously challenge and push your coding practice.
         </p>
-        <button className="px-6 py-3 bg-orange-500 text-white rounded-lg shadow-lg hover:bg-orange-600 transition-colors duration-300">
-          Get started
-        </button>
+        <FormSubmitButton>Get started</FormSubmitButton>
       </div>
     </div>
   );
