@@ -3,6 +3,7 @@ import Footer from "../../../components/common/users/Footer";
 import Header from "../../../components/common/users/Header";
 import Button from "../../../components/ui/FormSubmitButton";
 import TechIcon from "../../../components/ui/FormTechIcon";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   return (
@@ -122,15 +123,15 @@ const Signup = () => {
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
             />
 
-            <Button type="submit">Sign in</Button>
+            <Button type="submit">Sign up</Button>
           </div>
 
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-gray-600 dark:text-gray-400">
-            No account?{" "}
-            <a href="#" className="text-orange-400 hover:underline">
-              Sign up
-            </a>
+            Allready have an account on CodeAurora?{" "}
+            <Link to={"/signin"} className="text-orange-400 hover:underline">
+              Sign in
+            </Link>
           </p>
         </div>
       </div>

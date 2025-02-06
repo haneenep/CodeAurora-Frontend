@@ -1,10 +1,14 @@
-import Signup from "./pages/auth/Signup/Signup";
+import UserRoutes from "./routes/UserRoutes";
+import { BrowserRouter as Router,Routes,Route } from "react-router-dom";
 
 function App() {
   return (
     <>
-      {/* <Signin/> */}
-        <Signup />
+    <Router>
+      <Routes>
+        <Route path="/*" element={<UserRoutes/>}/>
+      </Routes>
+    </Router>
     </>
   );
 }

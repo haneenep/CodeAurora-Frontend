@@ -3,7 +3,7 @@ import Header from "../../../components/common/users/Header";
 import { Github } from "lucide-react";
 import Button from "../../../components/ui/FormSubmitButton";
 import TechIcon from "../../../components/ui/FormTechIcon";
-import "./Signin.css"
+import { Link } from "react-router-dom";
 
 const Signin = () => {
   return (
@@ -67,8 +67,8 @@ const Signin = () => {
         {/* Main Card */}
         <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 w-full max-w-md relative z-10">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-ubuntu-mono mb-2 dark:text-white">Sign Up</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Welcome to CodeAurora</p>
+            <h1 className="text-4xl font-ubuntu-mono mb-2 dark:text-white">Sign in</h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400">Welcome Back to CodeAurora</p>
           </div>
 
           {/* Sign-in Buttons */}
@@ -119,9 +119,9 @@ const Signin = () => {
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-gray-600 dark:text-gray-400">
             No account?{" "}
-            <a href="#" className="text-orange-400 hover:underline">
+            <Link to={"/signup"} className="text-orange-400 hover:underline">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
