@@ -1,7 +1,7 @@
 import Footer from "../../../components/common/users/Footer";
 import Header from "../../../components/common/users/Header";
 import { Github } from "lucide-react";
-import Button from "../../../components/ui/FormButton";
+import Button from "../../../components/ui/FormSubmitButton";
 import TechIcon from "../../../components/ui/FormTechIcon";
 import "./Signin.css"
 
