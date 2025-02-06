@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <>
-      <footer className="bg-white">
+      <footer className="bg-white dark:bg-gray-900">
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-4 rounded-lg bg-gradient-to-r from-red-600 to-orange-400 p-6 shadow-lg sm:flex-row sm:justify-between">
             <strong className="text-xl text-white sm:text-xl">
@@ -13,10 +13,10 @@ const Footer = () => {
               className="inline-flex items-center gap-2 rounded-full border border-white bg-white px-8 py-3 text-grabg-gradient-to-r from-red-600 to-orange-400 hover:bg-transparent hover:text-white focus:ring-3 focus:outline-hidden"
               href="#"
             >
-              <span className="text-sm font-medium"> Let's Get Started </span>
+              <span className="text-sm dark:text-black font-medium"> Let's Get Started </span>
 
               <svg
-                className="size-5 rtl:rotate-180"
+                className="size-5 rtl:rotate-180 dark:text-black"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -34,21 +34,18 @@ const Footer = () => {
 
           <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div className="text-center sm:text-left">
-              <p className="text-lg font-medium text-gray-900">About Us</p>
+              <p className="text-lg font-medium text-gray-900 dark:text-white">About Us</p>
 
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
-                  <a
-                    className="text-gray-700 transition hover:text-orange-600"
-                    href="#"
-                  >
+                <a className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-400" href="#">
                     Company History
                   </a>
                 </li>
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -58,7 +55,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     Employee Handbook
@@ -67,7 +64,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -83,7 +80,7 @@ const Footer = () => {
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     Web Development
@@ -92,7 +89,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -102,7 +99,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -112,7 +109,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -128,7 +125,7 @@ const Footer = () => {
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -138,7 +135,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     Conference Notes
@@ -147,7 +144,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -157,7 +154,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -167,7 +164,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     Upcoming Events
@@ -182,7 +179,7 @@ const Footer = () => {
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -192,7 +189,7 @@ const Footer = () => {
 
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-orange-600"
+                    className="text-gray-700 dark:text-gray-300 transition hover:text-orange-600 dark:hover:text-orange-600"
                     href="#"
                   >
                     {" "}
@@ -205,7 +202,7 @@ const Footer = () => {
                     className="group flex justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
                     href="#"
                   >
-                    <span className="text-gray-700 transition group-hover:text-orange-600">
+                    <span className="text-gray-700 dark:text-gray-300 transition group-hover:text-orange dark:group-hover:text-orange-600">
                       {" "}
                       Live Chat{" "}
                     </span>
@@ -341,7 +338,7 @@ const Footer = () => {
                 </span>
               </div>
 
-              <p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-right">
+              <p className="mt-4 text-center text-sm text-gray-500 dark:text-gray-300 sm:mt-0 sm:text-right">
                 Copyright &copy; 2022. All rights reserved.
               </p>
             </div>
