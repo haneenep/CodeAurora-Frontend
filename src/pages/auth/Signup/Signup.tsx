@@ -1,11 +1,32 @@
 import { Github } from "lucide-react";
-import Footer from "../../../components/common/users/Footer";
-import Header from "../../../components/common/users/Header";
-import Button from "../../../components/ui/FormSubmitButton";
-import TechIcon from "../../../components/ui/FormTechIcon";
+import Footer from "@/components/common/users/Footer";
+import Header from "@/components/common/users/Header";
+import Button from "@/components/ui/FormSubmitButton";
+import TechIcon from "@/components/ui/FormTechIcon";
 import { Link } from "react-router-dom";
+import { Formik, Form } from "formik";
+import { signupSchema } from "@/utils/validationSchemas/signupSchema";
+import InputField from "@/components/common/skeleton/InputField";
+import { UserSignupFormType } from "@/types/formTypes";
+import { Api } from "@/api/user";
+
 
 const Signup = () => {
+
+  const initialValues = {
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  const handleSubmit = async (data: UserSignupFormType) => {
+    console.log(data,"data")
+    const response = await Api.post('/register',data);
+
+    console.log(response,"got response form bckend");
+  };
+
   return (
     <>
       <Header />
@@ -67,8 +88,12 @@ const Signup = () => {
         {/* Main Card */}
         <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 w-full max-w-md relative z-10">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-ubuntu-mono mb-2 dark:text-white">Sign Up</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Welcome to CodeAurora</p>
+            <h1 className="text-4xl font-ubuntu-mono mb-2 dark:text-white">
+              Sign Up
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              Welcome to CodeAurora
+            </p>
           </div>
 
           {/* Sign-in Buttons */}
@@ -80,13 +105,17 @@ const Signup = () => {
                 alt="Google logo"
                 className="w-6 h-6"
               />
-              <span className="text-gray-700 dark:text-gray-300">Sign in with Google</span>
+              <span className="text-gray-700 dark:text-gray-300">
+                Sign in with Google
+              </span>
             </button>
 
             {/* GitHub Sign In */}
             <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 dark:hover:bg-gray-800 rounded-lg hover:bg-gray-50 transition-colors">
               <Github className="w-6 h-6" />
-              <span className="text-gray-700 dark:text-gray-300">Sign in with GitHub</span>
+              <span className="text-gray-700 dark:text-gray-300">
+                Sign in with GitHub
+              </span>
             </button>
 
             {/* Divider */}
@@ -100,30 +129,36 @@ const Signup = () => {
                 </span>
               </div>
             </div>
-
-            {/* Input Fields */}
-            <input
-              type="userName"
-              placeholder="username"
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-            />
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-            />
-            <input
-              type="confirmPassword"
-              placeholder="Confirm Password"
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-            />
-
-            <Button type="submit">Sign up</Button>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              validationSchema={signupSchema}
+            >
+              <Form className="flex flex-col gap-3 m-1">
+                {/* Input Fields */}
+                <InputField
+                  type="text"
+                  placeholder="Username"
+                  name="userName"
+                />
+                <InputField
+                  type="email"
+                  placeholder="Email address"
+                  name="email"
+                />
+                <InputField
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                />
+                <InputField
+                  type="password"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                />
+                <Button type="submit">Sign up</Button>
+              </Form>
+            </Formik>
           </div>
 
           {/* Sign Up Link */}

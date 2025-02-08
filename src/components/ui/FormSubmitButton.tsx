@@ -6,7 +6,7 @@ interface ButtonTypeProps {
     type ?: "button" | "submit" | "reset";
 }
 
-const FormSubmitButton : FC<ButtonTypeProps>= ({children,type = "button"}) => {
+const FormSubmitButton : FC<ButtonTypeProps>= ({children,type = "submit"}) => {
   return (
     <StyledWrapper>
       <button type={type}>{children}</button>

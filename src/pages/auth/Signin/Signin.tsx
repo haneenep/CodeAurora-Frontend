@@ -4,8 +4,21 @@ import { Github } from "lucide-react";
 import Button from "../../../components/ui/FormSubmitButton";
 import TechIcon from "../../../components/ui/FormTechIcon";
 import { Link } from "react-router-dom";
+import { Formik,Form } from "formik";
+import { signinSchema } from "@/utils/validationSchemas/signinSchema";
+import InputField from "@/components/common/skeleton/InputField";
 
 const Signin = () => {
+
+  const initialValues = () => {
+    email: "";
+    password: ""
+  }
+
+  const handleSubmit = () => {
+    
+  }
+
   return (
     <>
       <Header />
@@ -102,18 +115,26 @@ const Signin = () => {
             </div>
 
             {/* Input Fields */}
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-            />
-
-            <Button type="submit">Sign in</Button>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              validationSchema={signinSchema}
+            >
+              <Form className="flex flex-col gap-3 m-1">
+                {/* Input Fields */}
+                <InputField
+                  type="email"
+                  placeholder="Email address"
+                  name="email"
+                />
+                <InputField
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                />
+                <Button type="submit">Sign up</Button>
+              </Form>
+            </Formik>
           </div>
 
           {/* Sign Up Link */}
