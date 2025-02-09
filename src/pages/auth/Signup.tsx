@@ -1,23 +1,38 @@
-import Footer from "../../../components/common/users/Footer";
-import Header from "../../../components/common/users/Header";
 import { Github } from "lucide-react";
-import Button from "../../../components/ui/FormSubmitButton";
-import TechIcon from "../../../components/ui/FormTechIcon";
-import { Link } from "react-router-dom";
-import { Formik,Form } from "formik";
-import { signinSchema } from "@/utils/validationSchemas/signinSchema";
+import Footer from "@/components/common/users/Footer";
+import Header from "@/components/common/users/Header";
+import Button from "@/components/common/skeleton/FormSubmitButton";
+import TechIcon from "@/components/common/skeleton/FormTechIcon";
+import { Link, useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
+import { signupSchema } from "@/utils/validationSchemas/signupSchema";
 import InputField from "@/components/common/skeleton/InputField";
+import { UserSignupFormType } from "@/types/IForms";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { signupAction } from "@/redux/store/actions/auth/signupActions";
 
-const Signin = () => {
 
-  const initialValues = () => {
-    email: "";
-    password: ""
-  }
+const Signup = () => {
 
-  const handleSubmit = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch()
+
+  const initialValues = {
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  const handleSubmit = async (data: UserSignupFormType) => {
+
+    const response = await dispatch(signupAction(data))
+
+    if(response.payload.success){
+      navigate('/')
+    }
     
-  }
+  };
 
   return (
     <>
@@ -80,8 +95,12 @@ const Signin = () => {
         {/* Main Card */}
         <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 w-full max-w-md relative z-10">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-ubuntu-mono mb-2 dark:text-white">Sign in</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Welcome Back to CodeAurora</p>
+            <h1 className="text-4xl font-ubuntu-mono mb-2 dark:text-white">
+              Sign Up
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              Welcome to CodeAurora
+            </p>
           </div>
 
           {/* Sign-in Buttons */}
@@ -93,13 +112,17 @@ const Signin = () => {
                 alt="Google logo"
                 className="w-6 h-6"
               />
-              <span className="text-gray-700 dark:text-gray-300">Sign in with Google</span>
+              <span className="text-gray-700 dark:text-gray-300">
+                Sign in with Google
+              </span>
             </button>
 
             {/* GitHub Sign In */}
             <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 dark:hover:bg-gray-800 rounded-lg hover:bg-gray-50 transition-colors">
               <Github className="w-6 h-6" />
-              <span className="text-gray-700 dark:text-gray-300">Sign in with GitHub</span>
+              <span className="text-gray-700 dark:text-gray-300">
+                Sign in with GitHub
+              </span>
             </button>
 
             {/* Divider */}
@@ -113,15 +136,18 @@ const Signin = () => {
                 </span>
               </div>
             </div>
-
-            {/* Input Fields */}
             <Formik
               initialValues={initialValues}
               onSubmit={handleSubmit}
-              validationSchema={signinSchema}
+              validationSchema={signupSchema}
             >
               <Form className="flex flex-col gap-3 m-1">
                 {/* Input Fields */}
+                <InputField
+                  type="text"
+                  placeholder="Username"
+                  name="userName"
+                />
                 <InputField
                   type="email"
                   placeholder="Email address"
@@ -132,6 +158,11 @@ const Signin = () => {
                   placeholder="Password"
                   name="password"
                 />
+                <InputField
+                  type="password"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                />
                 <Button type="submit">Sign up</Button>
               </Form>
             </Formik>
@@ -139,9 +170,9 @@ const Signin = () => {
 
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-gray-600 dark:text-gray-400">
-            No account?{" "}
-            <Link to={"/signup"} className="text-orange-400 hover:underline">
-              Sign up
+            Allready have an account on CodeAurora?{" "}
+            <Link to={"/signin"} className="text-orange-400 hover:underline">
+              Sign in
             </Link>
           </p>
         </div>
@@ -151,4 +182,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Signup;

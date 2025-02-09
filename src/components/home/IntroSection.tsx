@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import FormSubmitButton from "../ui/FormSubmitButton";
+import FormSubmitButton from "../common/skeleton/FormSubmitButton";
 
 interface Tech {
   name: string;
