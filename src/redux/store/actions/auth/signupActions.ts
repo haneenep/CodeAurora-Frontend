@@ -10,7 +10,7 @@ export const signupAction = createAsyncThunk(
 
         try {
             
-            const response = await Api.post('/api/auth/signup',data);
+            const response = await Api.post('/auth/signup',data);
 
             if(response.data.success){
 
