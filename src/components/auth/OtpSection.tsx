@@ -1,6 +1,16 @@
 import React, { useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { verifyOtpAction } from "@/redux/store/actions/auth/verifyOtpAction";
+import { signupAction } from "@/redux/store/actions/auth/signupActions";
+import { toast } from "react-toastify";
 
 const OtpSection = () => {
+
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+
   let length = 6;
 
   const [otp, setOtp] = React.useState<string[]>(new Array(length).fill(""));
@@ -10,14 +20,18 @@ const OtpSection = () => {
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+
     const value = e.target.value;
+
     if (!isNaN(Number(value))) {
       const newOtp = [...otp];
       newOtp[index] = value.slice(-1);
       setOtp(newOtp);
+
       if (index < length - 1 && value) {
         inputRef.current[index + 1]?.focus();
       }
+
     }
   };
 
@@ -25,13 +39,39 @@ const OtpSection = () => {
     index: number,
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
+
     if(!otp[index] && e.key === "Backspace" && index > 0){
       inputRef.current[index - 1]?.focus();
     }
+
   };
 
   const handleSubmit = async () => {
-    
+
+    console.log(location,"location")
+
+    const submittedOtp = otp.join('');
+
+    const response = await dispatch(verifyOtpAction({email: location.state.email, otp: submittedOtp}));
+
+    console.log(response,"response after verifying")
+
+    if(!response.payload.success){
+      toast.error(response.payload.message || response.payload.error)
+    } else {
+
+      const response1 = await dispatch(signupAction(location.state));
+      console.log("response after signuped",response1)
+  
+      if(response1.payload.success){
+  
+        navigate('/')
+      } else {
+        toast.error(response.payload.message || response.payload.error)
+      }
+
+    }
+
   }
 
   return (

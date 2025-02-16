@@ -1,9 +1,25 @@
-import { useState } from 'react';
-import { Menu } from 'lucide-react';
-import { ModeToggle } from '@/components/ui/mode-toggler';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Menu, User, LogOut } from "lucide-react";
+import { ModeToggle } from "@/components/ui/mode-toggler";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
+  const userData = useSelector((state: RootState) => state.user);
+
+  const userName = userData?.data?.userName;
+
+  console.log(userName, "userName");
+
+  console.log(userData, "userdata");
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -18,13 +34,22 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-14">
-          <a href="/" className="text-gray-700 dark:text-white hover:text-orange-400 dark:hover:text-orange-400 transition-colors">
+          <a
+            href="/"
+            className="text-gray-700 dark:text-white hover:text-orange-400 dark:hover:text-orange-400 transition-colors"
+          >
             Home
           </a>
-          <a href="/problems" className="text-gray-700 dark:text-white hover:text-orange-400 dark:hover:text-orange-400 transition-colors">
+          <a
+            href="/problems"
+            className="text-gray-700 dark:text-white hover:text-orange-400 dark:hover:text-orange-400 transition-colors"
+          >
             Problems
           </a>
-          <a href="/community" className="text-gray-700 dark:text-white hover:text-orange-400 dark:hover:text-orange-400 transition-colors">
+          <a
+            href="/community"
+            className="text-gray-700 dark:text-white hover:text-orange-400 dark:hover:text-orange-400 transition-colors"
+          >
             Community
           </a>
         </div>
@@ -32,18 +57,45 @@ const Header = () => {
         {/* Right Section - Auth & Theme */}
         <div className="flex items-center space-x-4">
           <ModeToggle />
-          
-          <div className="hidden md:flex items-center space-x-4">
-            <Link to={"/signin"} className="px-4 py-2 text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-400/10 rounded-md transition-colors">
-              Sign In
-            </Link>
-            <Link to={"/signup"} className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors">
-              Sign Up
-            </Link>
-          </div>
+          {userData?.data ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
+                <User className="h-5 w-5" />
+                <span className="hidden md:inline">{userName}</span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="flex items-center gap-2"
+                  // onClick={""}
+                >
+                  <LogOut className="h-4 w-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="hidden md:flex items-center space-x-4">
+              <Link
+                to="/signin"
+                className="px-4 py-2 text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-400/10 rounded-md transition-colors"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 transition-colors"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             aria-label="Toggle menu"
@@ -57,20 +109,35 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 shadow-lg">
           <div className="flex flex-col space-y-4 p-4">
-            <a href="/" className="text-gray-700 dark:text-white hover:text-orange-400">
+            <a
+              href="/"
+              className="text-gray-700 dark:text-white hover:text-orange-400"
+            >
               Home
             </a>
-            <a href="/problems" className="text-gray-700 dark:text-white hover:text-orange-400">
+            <a
+              href="/problems"
+              className="text-gray-700 dark:text-white hover:text-orange-400"
+            >
               Problems
             </a>
-            <a href="/community" className="text-gray-700 dark:text-white hover:text-orange-400">
+            <a
+              href="/community"
+              className="text-gray-700 dark:text-white hover:text-orange-400"
+            >
               Community
             </a>
             <div className="flex flex-col space-y-2">
-              <a href="/signin" className="px-4 py-2 text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-400/10 rounded-md">
+              <a
+                href="/signin"
+                className="px-4 py-2 text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-400/10 rounded-md"
+              >
                 Sign In
               </a>
-              <a href="/signup" className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500">
+              <a
+                href="/signup"
+                className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500"
+              >
                 Sign Up
               </a>
             </div>

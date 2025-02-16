@@ -3,21 +3,40 @@ import Header from "../../components/common/users/Header";
 import { Github } from "lucide-react";
 import Button from "../../components/common/skeleton/FormSubmitButton";
 import TechIcon from "../../components/common/skeleton/FormTechIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik,Form } from "formik";
 import { signinSchema } from "@/utils/validationSchemas/signinSchema";
 import InputField from "@/components/common/skeleton/InputField";
 import { UserSiginFormType } from "@/types/IForms";
+import { findUserEmailAction } from "@/redux/store/actions/auth/findEmailAction";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { toast,ToastContainer } from "react-toastify";
+import { signinAction } from "@/redux/store/actions/auth/signinAction";
 
 const Signin = () => {
 
-  const initialValues = () => {
-    email: "";
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const initialValues = {
+    email: "",
     password: ""
   }
 
-  const handleSubmit = (data: UserSiginFormType) => {
-    
+  const handleSubmit = async (data: UserSiginFormType) => {
+      
+      const response = await dispatch(signinAction(data));
+
+      console.log(response,"after signin")
+
+      if(response.payload.success){
+        navigate('/');
+      } else {
+        console.log("error side",response.payload.message)
+        toast.error(response.payload.message)
+
+      }
+
   }
 
   return (
@@ -148,6 +167,7 @@ const Signin = () => {
         </div>
       </div>
       <Footer />
+      <ToastContainer />
     </>
   );
 };
