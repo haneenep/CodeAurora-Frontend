@@ -10,9 +10,12 @@ import InputField from "@/components/common/skeleton/InputField";
 import { UserSignupFormType } from "@/types/IForms";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { findUserEmailAction } from "@/redux/store/actions/auth/findEmailAction";
-import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
+import { toast } from "sonner";
 import { sendVerificationEmail } from "@/redux/store/actions/auth/sendVerificationEmail";
+import { googleAuthAction } from "@/redux/store/actions/auth/googleAuthAction";
+import { signupAction } from "@/redux/store/actions/auth/signupActions";
+import { setUserData } from "@/redux/store/slices/user";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -26,7 +29,6 @@ const Signup = () => {
   };
 
   const handleSubmit = async (data: UserSignupFormType) => {
-
     const response1 = await dispatch(findUserEmailAction(data.email));
 
     console.log(response1, "response");
@@ -34,15 +36,54 @@ const Signup = () => {
     if (response1.payload.success) {
       return toast.error("Email already exists!!");
     } else {
-
       let allDatas = {
-        ...data
-      }
+        ...data,
+      };
 
       dispatch(sendVerificationEmail(data.email));
 
-      navigate('/otp', {state: allDatas})
+      navigate("/otp", { state: allDatas });
+    }
+  };
 
+  const handleLoginWithGoogle = async (credential: any) => {
+    console.log(credential, "google credentials");
+    try {
+      const response = await dispatch(googleAuthAction(credential));
+
+      if (response.payload.existingUser && response.payload.data.isGAuth) {
+        console.log("existing user and google auth is here");
+        dispatch(setUserData(response.payload.data));
+        navigate("/");
+        return;
+      } else if (
+        response.payload.existingUser &&
+        !response.payload.data.isGAuth
+      ) {
+        toast.error("Account is allready registered", {
+          description:
+            "Account allready created without using google auth, can't login using google",
+          duration: 5000,
+          position: "top-right",
+        });
+        return;
+      } else {
+        const allDatas: UserSignupFormType = {
+          email: response.payload.data.email,
+          password: response.payload.data.password,
+          userName: response.payload.data.userName,
+          isGAuth: true,
+          role: "user",
+        };
+        const responseSignup = await dispatch(signupAction(allDatas));
+
+        if (responseSignup.payload.success) {
+          window.location.reload();
+        }
+      }
+    } catch (error) {
+      console.log(error,"login failed");
+      toast.error("Something is wrong while logging with google");
     }
   };
 
@@ -54,7 +95,11 @@ const Signup = () => {
         <div className="absolute inset-0 overflow-hidden">
           {/* Left side icons */}
           <div className="absolute top-16 left-20">
-            <TechIcon label="JS" bgColor="bg-yellow-400" textColor="text-black" />
+            <TechIcon
+              label="JS"
+              bgColor="bg-yellow-400"
+              textColor="text-black"
+            />
           </div>
           <div className="absolute top-40 left-40">
             <TechIcon label="Py" bgColor="bg-blue-500" />
@@ -103,23 +148,33 @@ const Signup = () => {
         {/* Main Card */}
         <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 w-full max-w-md relative z-10">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-ubuntu-mono mb-2 dark:text-white">Sign Up</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">Welcome to CodeAurora</p>
+            <h1 className="text-4xl font-ubuntu-mono mb-2 dark:text-white">
+              Sign Up
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              Welcome to CodeAurora
+            </p>
           </div>
 
           {/* Sign-in Buttons */}
           <div className="space-y-4">
             {/* Google Sign In */}
-            <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 dark:hover:bg-gray-800 rounded-lg hover:bg-gray-50 transition-colors">
-              <img src="/api/placeholder/24/24" alt="Google logo" className="w-6 h-6" />
-              <span className="text-gray-700 dark:text-gray-300">Sign in with Google</span>
-            </button>
+
+            <GoogleLogin
+              onSuccess={handleLoginWithGoogle}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+              width="380"
+            />
 
             {/* GitHub Sign In */}
-            <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 dark:hover:bg-gray-800 rounded-lg hover:bg-gray-50 transition-colors">
+            {/* <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 dark:hover:bg-gray-800 rounded-lg hover:bg-gray-50 transition-colors">
               <Github className="w-6 h-6" />
-              <span className="text-gray-700 dark:text-gray-300">Sign in with GitHub</span>
-            </button>
+              <span className="text-gray-700 dark:text-gray-300">
+                Sign in with GitHub
+              </span>
+            </button> */}
 
             {/* Divider */}
             <div className="relative">
@@ -127,16 +182,38 @@ const Signup = () => {
                 <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">Or continue with</span>
+                <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+                  Or continue with
+                </span>
               </div>
             </div>
-            <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={signupSchema}>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              validationSchema={signupSchema}
+            >
               <Form className="flex flex-col gap-3 m-1">
                 {/* Input Fields */}
-                <InputField type="text" placeholder="Username" name="userName" />
-                <InputField type="email" placeholder="Email address" name="email" />
-                <InputField type="password" placeholder="Password" name="password" />
-                <InputField type="password" placeholder="Confirm Password" name="confirmPassword" />
+                <InputField
+                  type="text"
+                  placeholder="Username"
+                  name="userName"
+                />
+                <InputField
+                  type="email"
+                  placeholder="Email address"
+                  name="email"
+                />
+                <InputField
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                />
+                <InputField
+                  type="password"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                />
                 <Button type="submit">Sign up</Button>
               </Form>
             </Formik>
@@ -152,7 +229,6 @@ const Signup = () => {
         </div>
       </div>
       <Footer />
-      <ToastContainer />
     </>
   );
 };

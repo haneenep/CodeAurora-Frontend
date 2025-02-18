@@ -1,29 +1,68 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { verifyOtpAction } from "@/redux/store/actions/auth/verifyOtpAction";
 import { signupAction } from "@/redux/store/actions/auth/signupActions";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+import { sendVerificationEmail } from "@/redux/store/actions/auth/sendVerificationEmail";
 
 const OtpSection = () => {
 
+  
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if(!location.state?.email){
+      navigate('/signup')
+      return;
+    }
+  },[location.state,navigate])
 
   let length = 6;
+  let resentTime = 180
 
   const [otp, setOtp] = React.useState<string[]>(new Array(length).fill(""));
   const inputRef = useRef<(HTMLInputElement | null)[]>([]);
+  const [timeLeft, setTimeLeft] = useState<number>(resentTime);
+  const [canResend, setCanResend] = useState<boolean>(false);
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+      return () => clearInterval(timer);
+    } else {
+      setCanResend(true);
+    }
+  }, [timeLeft]);
+
+  const handleResendOtp = async () => {
+
+    try {
+      setTimeLeft(resentTime);
+      setCanResend(false);
+      await dispatch(sendVerificationEmail(location.state.email));
+      toast.success("OTP resent successfully");
+
+    } catch (error) {
+      toast.error("Failed to resend OTP");
+
+    } finally {
+      setOtp(new Array(length).fill(""));
+      setIsComplete(false);
+      inputRef.current[0]?.focus();
+    }
+  };
 
   const handleChange = (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-
     const value = e.target.value;
 
-    if (!isNaN(Number(value))) {
+    if (!isNaN(Number(value)) && value !== " ") {
       const newOtp = [...otp];
       newOtp[index] = value.slice(-1);
       setOtp(newOtp);
@@ -32,6 +71,7 @@ const OtpSection = () => {
         inputRef.current[index + 1]?.focus();
       }
 
+      setIsComplete(newOtp.every((digit) => digit !== ""));
     }
   };
 
@@ -39,40 +79,42 @@ const OtpSection = () => {
     index: number,
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
-
-    if(!otp[index] && e.key === "Backspace" && index > 0){
+    if (!otp[index] && e.key === "Backspace" && index > 0) {
       inputRef.current[index - 1]?.focus();
     }
-
   };
 
   const handleSubmit = async () => {
-
-    console.log(location,"location")
-
-    const submittedOtp = otp.join('');
-
-    const response = await dispatch(verifyOtpAction({email: location.state.email, otp: submittedOtp}));
-
-    console.log(response,"response after verifying")
-
-    if(!response.payload.success){
-      toast.error(response.payload.message || response.payload.error)
-    } else {
-
-      const response1 = await dispatch(signupAction(location.state));
-      console.log("response after signuped",response1)
+    if (isComplete) {
+      const submittedOtp = otp.join("");
   
-      if(response1.payload.success){
+      try {
+        const response = await dispatch(
+          verifyOtpAction({ email: location.state.email, otp: submittedOtp })
+        );
   
-        navigate('/')
-      } else {
-        toast.error(response.payload.message || response.payload.error)
+        if (!response.payload?.success) {
+          toast.error("you entered wrong otp");
+          return;
+        }
+  
+        const response1 = await dispatch(signupAction(location.state));
+  
+        if (response1.payload?.success) {
+          window.location.reload()
+          navigate("/");
+        } else {
+          toast.error(response1.payload?.error || "Signup failed");
+        }
+      } catch (error) {
+        toast.error("An error occurred during OTP verification");
+      } finally {
+        setOtp(new Array(length).fill(""));
+        setIsComplete(false);
+        inputRef.current[0]?.focus();
       }
-
     }
-
-  }
+  };
 
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-700 flex items-center justify-center p-4">
@@ -80,6 +122,10 @@ const OtpSection = () => {
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Verify OTP
         </h2>
+        <p className="text-center text-gray-600 mb-4">
+          Time remaining: {Math.floor(timeLeft / 60)}:
+          {(timeLeft % 60).toString().padStart(2, "0")}
+        </p>
         <div className="flex justify-center gap-x-4 mb-6">
           {otp.map((value, index) => (
             <input
@@ -94,8 +140,22 @@ const OtpSection = () => {
             />
           ))}
         </div>
-        <button onClick={handleSubmit} className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-300"
+        >
           Submit
+        </button>
+        <button
+          onClick={handleResendOtp}
+          disabled={!canResend}
+          className={`w-full py-2 rounded-lg transition duration-300 text-center ${
+            canResend
+              ? "text-purple-600 hover:bg-purple-50"
+              : "text-gray-400 cursor-not-allowed"
+          }`}
+        >
+          Resend OTP {!canResend && `(${timeLeft}s)`}
         </button>
       </div>
     </div>

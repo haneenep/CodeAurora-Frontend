@@ -66,7 +66,9 @@ const Header = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem className="flex items-center gap-2">
                   <User className="h-4 w-4" />
+                  <Link to={"/user-profile"}>
                   Profile
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="flex items-center gap-2"

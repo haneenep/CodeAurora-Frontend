@@ -3,7 +3,9 @@ export interface UserSignupFormType {
     userName: string;
     email: string;
     password: string;
-    confirmPassword: string;
+    confirmPassword?: string;
+    isGAuth?: boolean;
+    role?: string;
   }
 
 export interface UserSiginFormType {
