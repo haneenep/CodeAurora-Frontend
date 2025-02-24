@@ -1,30 +1,16 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import Signup from "@/pages/auth/Signup";
 import Signin from "@/pages/auth/Signin";
 import HomePage from "@/pages/user/Home";
 import OtpPage from "@/pages/auth/OtpPage";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import ConfirmEmail from "@/pages/auth/ConfirmEmail";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
 import Profile from "@/pages/user/Profile";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { PublicRoute } from "./PublicRoute";
 
 const UserRoutes = () => {
-  const userData = useSelector((state: RootState) => state.user.data);
 
-  const PublicRoute = ({ children }: { children: JSX.Element }) => {
-    if (userData?.role === "admin") {
-      return <Navigate to={"/admin"} />;
-    }
-    return userData ? <Navigate to={"/"} /> : children;
-  };
-
-  const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-    if (userData?.role === "admin") {
-      return <Navigate to={"/admin"} />;
-    }
-    return userData ? children : <Navigate to={"/signin"} />;
-  };
 
   return (
     <>

@@ -31,18 +31,18 @@ const Signin = () => {
     console.log(response, "after signin");
 
     if (response.payload.success) {
-
       const userRole = response.payload.data.role;
-      if(userRole === "admin"){
-        navigate('/admin')
+      dispatch(setUserData(response.payload.data));
+      if (userRole === "admin") {
+        navigate("/admin");
       } else {
         navigate("/");
       }
-      
     } else {
       console.log("error side", response.payload.message);
       toast.error(response.payload.message);
     }
+    
   };
 
   const handleLoginWithGoogle = async (credential: any) => {
@@ -50,7 +50,11 @@ const Signin = () => {
     try {
       const response = await dispatch(googleAuthAction(credential));
 
-      if (response.payload.existingUser && response.payload.data.isGAuth) {
+      if (
+        response.payload.existingUser &&
+        response.payload.data.isGAuth &&
+        !response.payload.data.isBlocked
+      ) {
         console.log("existing user and google auth is here");
         dispatch(setUserData(response.payload.data));
         navigate("/");
@@ -64,6 +68,16 @@ const Signin = () => {
             "Account allready created without using google auth, can't login using google",
           duration: 5000,
           position: "top-right",
+        });
+        return;
+      } else if (
+        response.payload.existingUser &&
+        response.payload.data.isBlocked
+      ) {
+        toast.error("Account is blocked", {
+          description:
+            "CodeAurora team blocked your account",
+          duration: 5000,
         });
         return;
       } else {

@@ -1,14 +1,15 @@
-export interface User {
-    _id: string;
-    userName: string;
-    email: string;
-    status: 'Active' | 'Inactive';
-    lastLogin?: string;
-    role: string;
-  }
-  
-  export interface UserManagementProps {
-    users: User[];
-    searchTerm: string;
-    setSearchTerm: (term: string) => void;
-  }
+
+export interface UserType {
+  _id?: string;
+  userName: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  isAdmin?: boolean;
+  isBlocked?: boolean;
+  subscriptionType?: string;
+  isGAuth?: boolean;
+  role?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}

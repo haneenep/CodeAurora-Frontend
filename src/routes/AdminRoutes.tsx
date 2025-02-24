@@ -1,5 +1,7 @@
 
-import { AdminHome } from "@/pages/admin/AdminHome";
+import AdminDashboard from "@/components/admins/AdminDashboard";
+import UserManagement from "@/components/admins/AdminUserManagement";
+import AdminHome from "@/pages/admin/AdminHome";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -14,7 +16,10 @@ const AdminRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<AdminHome />} />
+        <Route path="/" element={<AdminHome />}>
+          <Route index element={<AdminDashboard/>}/>
+          <Route path="/users" element={<UserManagement/>}/>
+        </Route>
       </Routes>
     </>
   );

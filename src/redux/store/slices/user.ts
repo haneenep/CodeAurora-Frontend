@@ -4,6 +4,7 @@ import { UserSignupFormType } from "@/types/IForms";
 import { verifyOtpAction } from "../actions/auth/verifyOtpAction";
 import { signinAction } from "../actions/auth/signinAction";
 import { getUserDataAction } from "../actions/auth/getUserDataAction";
+import { logoutAction } from "../actions/auth/logoutAction";
 
 
 export interface UserStateType {
@@ -90,6 +91,19 @@ const userSlice = createSlice({
                 state.error = action.error.message || 'login failed';
                 state.data = null;
             })
+            .addCase(logoutAction.pending, (state: UserStateType) => {
+                state.loading = true
+            }) 
+            .addCase(logoutAction.fulfilled, (state: UserStateType) => {
+                state.loading = false;
+                state.data = null;
+                state.error = null;
+            }) 
+            .addCase(logoutAction.rejected, (state: UserStateType, action) => {
+                state.loading = false;
+                state.data = null;
+                state.error = action.error.message || "Logout failed";
+            }) 
     },
 })
 

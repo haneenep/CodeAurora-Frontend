@@ -6,6 +6,8 @@ export interface UserSignupFormType {
     confirmPassword?: string;
     isGAuth?: boolean;
     role?: string;
+    isBlocked?: boolean;
+    isAdmin?: boolean;
   }
 
 export interface UserSiginFormType {
