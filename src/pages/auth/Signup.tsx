@@ -222,7 +222,7 @@ const Signup = () => {
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-gray-600 dark:text-gray-400">
             Already have an account on CodeAurora?{" "}
-            <Link to={"/signin"} className="text-orange-400 hover:underline">
+            <Link to={"/signin"} className="text-indigo-400 hover:underline">
               Sign in
             </Link>
           </p>

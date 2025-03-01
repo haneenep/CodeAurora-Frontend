@@ -6,6 +6,7 @@ import { useAppDispatch } from "./hooks/useRedux";
 import { useEffect } from "react";
 import { getUserDataAction } from "./redux/store/actions/auth/getUserDataAction";
 import AdminRoutes from "./routes/AdminRoutes";
+import { logoutAction } from "./redux/store/actions/auth/logoutAction";
 
 function App() {
 
@@ -16,6 +17,8 @@ function App() {
   useEffect(() => {
     if(!data){
       dispatch(getUserDataAction());
+    } else if(data.isBlocked) {
+      dispatch(logoutAction());
     }
   },[dispatch, data])
 

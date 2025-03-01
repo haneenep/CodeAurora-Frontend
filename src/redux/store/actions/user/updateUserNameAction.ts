@@ -3,11 +3,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 export const updateUserNameAction = createAsyncThunk(
-    "user/updateProfile", async (value: {userName: string, email: string}, {rejectWithValue}) => {
+    "user/editProfile", async (value: {userName: string, email: string, profile: string}, {rejectWithValue}) => {
 
         try {
 
-            const response = await Api.put(`/auth/user-profile`, value);
+            const response = await Api.put(`/auth/edit-profile`, value);
 
             if (response.data.success) {
                 return response.data;

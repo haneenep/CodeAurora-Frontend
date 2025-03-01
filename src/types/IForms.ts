@@ -8,6 +8,7 @@ export interface UserSignupFormType {
     role?: string;
     isBlocked?: boolean;
     isAdmin?: boolean;
+    profileImage?: string
   }
 
 export interface UserSiginFormType {

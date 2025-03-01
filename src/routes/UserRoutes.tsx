@@ -8,6 +8,7 @@ import ForgotPassword from "@/pages/auth/ForgotPassword";
 import Profile from "@/pages/user/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
+import EditProfile from "@/components/users/EditProfile";
 
 const UserRoutes = () => {
 
@@ -68,6 +69,14 @@ const UserRoutes = () => {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-profile"
+          element={
+            <ProtectedRoute>
+              <EditProfile />
             </ProtectedRoute>
           }
         />
