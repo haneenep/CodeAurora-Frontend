@@ -1,10 +1,10 @@
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent} from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Lock, Camera, Check, X } from "lucide-react";
+import { User, Lock, Camera, Check, X, AlertCircle } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useAppDispatch } from "@/hooks/useRedux";
@@ -17,6 +17,7 @@ import { getUserDataAction } from "@/redux/store/actions/auth/getUserDataAction"
 import { updateUserPasswordAction } from "@/redux/store/actions/user/updateUserPasswordAction";
 import { toast } from "sonner";
 import { UploadImage } from "@/utils/cloudinary/uploadImage";
+import { validateName, validatePasswords, validateProfilePicture } from "@/utils/validationSchemas/editProfileSchemas";
 
 interface StatusMessage {
   success: boolean;
@@ -24,7 +25,16 @@ interface StatusMessage {
   message: string;
 }
 
+interface ValidationError {
+  name?: string;
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+  profilePicture?: string;
+}
+
 const EditProfile = () => {
+
   const userData = useSelector((state: RootState) => state.user.data);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -49,12 +59,34 @@ const EditProfile = () => {
     message: "",
   });
 
+  const [error, setError] = useState<ValidationError>({})
+
+  const handleNameValidation = () => {
+    return validateName(name, setError);
+  };
+
+  const handleProfilePictureValidation = (file: File | null) => {
+    return validateProfilePicture(file, setError);
+  };
+
+  const handlePasswordValidation = () => {
+    return validatePasswords(currentPassword, newPassword, confirmPassword, setError);
+  };
+
   const handleProfilePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     console.log(files,"image")
     if (files && files[0]) {
       const file = files[0];
-      setProfilePicture(file);
+
+      if(handleProfilePictureValidation(file)){
+        setProfilePicture(file);
+      } else {
+        if(fileInputRef.current){
+          fileInputRef.current.value = '';
+        }
+        toast.error(error.profilePicture || "Invalid image file")
+      }
     }
   };
 
@@ -67,36 +99,62 @@ const EditProfile = () => {
   };
 
   const handleUpdatePersonalInfo = async (): Promise<void> => {
-    let profileUrl = null;
 
-    if(profilePicture){
-      profileUrl = await UploadImage(profilePicture);
+    if(!handleNameValidation()){
+      toast.error("Please fix the error before saving");
+      return;
     }
 
-    let data = {
-      userName: name,
-      email: userData?.email || "",
-      profile: profileUrl || userData?.profileImage
-    };
+    if (profilePicture && !handleProfilePictureValidation(profilePicture)) {
+      toast.error("Please select a valid JPG image");
+      return;
+    }
 
-    await dispatch(updateUserNameAction(data));
+    try {
+      
+      let profileUrl = null;
+  
+      if(profilePicture){
+        profileUrl = await UploadImage(profilePicture);
+      }
+  
+      let data = {
+        userName: name,
+        email: userData?.email || "",
+        profile: profileUrl || userData?.profileImage
+      };
+  
+      await dispatch(updateUserNameAction(data));
+  
+      await dispatch(getUserDataAction());
+  
+        setPersonalInfoStatus({
+          success: true,
+          error: false,
+          message: "Personal information updated successfully!",
+        });
+  
+        setTimeout(() => {
+          setPersonalInfoStatus({ success: false, error: false, message: "" });
+        }, 3000);
 
-    await dispatch(getUserDataAction());
-
-    setTimeout(() => {
+    } catch (error) {
       setPersonalInfoStatus({
-        success: true,
-        error: false,
-        message: "Personal information updated successfully!",
+        success: false,
+        error: true,
+        message: "Failed to update profile. Please try again.",
       });
+    }
 
-      setTimeout(() => {
-        setPersonalInfoStatus({ success: false, error: false, message: "" });
-      }, 3000);
-    }, 1000);
   };
 
   const handleUpdatePassword = async () => {
+
+    if (!handlePasswordValidation()) {
+      toast.error("Please fix the password errors before updating");
+      return;
+    }
+
     const response = await dispatch(
       updateUserPasswordAction({
         currentPassword,
@@ -130,6 +188,16 @@ const EditProfile = () => {
 
   const handleCancel = (): void => {
     navigate("/user-profile");
+  };
+
+  const renderFieldError = (errorMsg?: string) => {
+    if (!errorMsg) return null;
+    return (
+      <div className="text-red-500 text-sm flex items-center mt-1">
+        <AlertCircle className="w-3 h-3 mr-1" />
+        {errorMsg}
+      </div>
+    );
   };
 
   return (
@@ -188,12 +256,13 @@ const EditProfile = () => {
                       type="file"
                       ref={fileInputRef}
                       className="hidden"
-                      accept="image/*"
+                      accept="image/jpeg,image/jpg"
                       onChange={handleProfilePictureChange}
                     />
                     <span className="text-sm text-muted-foreground">
-                      Click to upload a new profile picture
+                      Click to upload a new profile picture(JPG only)
                     </span>
+                    {renderFieldError(error.profilePicture)}
                   </div>
 
                   {/* Name Input */}
@@ -206,7 +275,9 @@ const EditProfile = () => {
                         setName(e.target.value)
                       }
                       placeholder="Your name"
+                      className={error.name ? "border-red-500" : ""}
                     />
+                    {renderFieldError(error.name)}
                   </div>
 
                   {/* Email Input (Non-editable) */}
@@ -276,7 +347,9 @@ const EditProfile = () => {
                         setCurrentPassword(e.target.value)
                       }
                       placeholder="Enter your current password"
+                      className={error.currentPassword ? "border-red-500" : ""}
                     />
+                    {renderFieldError(error.currentPassword)}
                   </div>
 
                   {/* New Password */}
@@ -290,7 +363,9 @@ const EditProfile = () => {
                         setNewPassword(e.target.value)
                       }
                       placeholder="Enter your new password"
+                      className={error.newPassword ? "border-red-500" : ""}
                     />
+                    {renderFieldError(error.newPassword)}
                   </div>
 
                   {/* Confirm New Password */}
@@ -306,7 +381,9 @@ const EditProfile = () => {
                         setConfirmPassword(e.target.value)
                       }
                       placeholder="Confirm your new password"
+                      className={error.confirmPassword ? "border-red-500" : ""}
                     />
+                    {renderFieldError(error.confirmPassword)}
                   </div>
 
                   {/* Status Message */}
