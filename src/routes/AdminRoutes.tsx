@@ -1,6 +1,7 @@
 
 import AdminDashboard from "@/components/admins/AdminDashboard";
 import UserManagement from "@/components/admins/AdminUserManagement";
+import AddProblem from "@/components/admins/problems/AddProblem";
 import AdminHome from "@/pages/admin/AdminHome";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -19,6 +20,7 @@ const AdminRoutes = () => {
         <Route path="/" element={<AdminHome />}>
           <Route index element={<AdminDashboard/>}/>
           <Route path="/users" element={<UserManagement/>}/>
+          <Route path="/add-problem" element={<AddProblem/>}/>
         </Route>
       </Routes>
     </>

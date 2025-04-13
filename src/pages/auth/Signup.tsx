@@ -1,4 +1,3 @@
-import { Github } from "lucide-react";
 import Footer from "@/components/common/users/Footer";
 import Header from "@/components/common/users/Header";
 import Button from "@/components/common/skeleton/FormSubmitButton";
