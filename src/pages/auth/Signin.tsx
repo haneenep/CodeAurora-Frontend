@@ -1,6 +1,5 @@
 import Footer from "../../components/common/users/Footer";
 import Header from "../../components/common/users/Header";
-import { Github } from "lucide-react";
 import Button from "../../components/common/skeleton/FormSubmitButton";
 import TechIcon from "../../components/common/skeleton/FormTechIcon";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ import { signupAction } from "@/redux/store/actions/auth/signupActions";
 import { googleAuthAction } from "@/redux/store/actions/auth/googleAuthAction";
 import { setUserData } from "@/redux/store/slices/user";
 import { GoogleLogin } from "@react-oauth/google";
+import PasswordField from "@/components/common/auth/PasswordField";
 
 const Signin = () => {
   const dispatch = useAppDispatch();
@@ -42,7 +42,6 @@ const Signin = () => {
       console.log("error side", response.payload.message);
       toast.error(response.payload.message);
     }
-    
   };
 
   const handleLoginWithGoogle = async (credential: any) => {
@@ -75,8 +74,7 @@ const Signin = () => {
         response.payload.data.isBlocked
       ) {
         toast.error("Account is blocked", {
-          description:
-            "CodeAurora team blocked your account",
+          description: "CodeAurora team blocked your account",
           duration: 5000,
         });
         return;
@@ -102,7 +100,6 @@ const Signin = () => {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen bg-gray-50 dark:bg-slate-800 flex items-center justify-center p-4 relative overflow-hidden">
         {/* Static Tech Icons Background */}
         <div className="absolute inset-0 overflow-hidden">
@@ -180,12 +177,6 @@ const Signin = () => {
               width="380"
             />
 
-            {/* GitHub Sign In */}
-            {/* <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 dark:hover:bg-gray-800 rounded-lg hover:bg-gray-50 transition-colors">
-              <Github className="w-6 h-6" />
-              <span className="text-gray-700 dark:text-gray-300">Sign in with GitHub</span>
-            </button> */}
-
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -211,10 +202,10 @@ const Signin = () => {
                   name="email"
                 />
                 <div className="space-y-1">
-                  <InputField
-                    type="password"
-                    placeholder="Password"
+                  <PasswordField
                     name="password"
+                    placeholder="Password"
+                    showDuration={2000}
                   />
                   <div className="text-right">
                     <Link
@@ -239,7 +230,6 @@ const Signin = () => {
           </p>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

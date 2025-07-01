@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Pencil,
   Code,
   GitBranch,
   MessageSquare,
@@ -15,9 +13,7 @@ import {
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { useAppDispatch } from "@/hooks/useRedux";
 import { Button } from "@/components/ui/button";
-import EditProfile from "./EditProfile";
 import { useNavigate } from "react-router-dom";
 
 interface Submission {
@@ -29,7 +25,6 @@ interface Submission {
 
 const UserProfile = () => {
   const userData = useSelector((state: RootState) => state.user.data);
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   const navigate = useNavigate();
 
@@ -106,7 +101,7 @@ const UserProfile = () => {
                     {userData?.profileImage ? (
                       <img
                         src={userData.profileImage}
-                        className="w-20 h-20 rounded-full"
+                        className="w-20 h-20 rounded-full object-cover"
                         alt="profile-image"
                       />
                     ) : (

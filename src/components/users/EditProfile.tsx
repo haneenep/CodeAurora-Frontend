@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent} from "react";
+import { useState, useRef, ChangeEvent } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,11 @@ import { getUserDataAction } from "@/redux/store/actions/auth/getUserDataAction"
 import { updateUserPasswordAction } from "@/redux/store/actions/user/updateUserPasswordAction";
 import { toast } from "sonner";
 import { UploadImage } from "@/utils/cloudinary/uploadImage";
-import { validateName, validatePasswords, validateProfilePicture } from "@/utils/validationSchemas/editProfileSchemas";
+import {
+  validateName,
+  validatePasswords,
+  validateProfilePicture,
+} from "@/utils/validationSchemas/editProfileSchemas";
 
 interface StatusMessage {
   success: boolean;
@@ -34,7 +38,6 @@ interface ValidationError {
 }
 
 const EditProfile = () => {
-
   const userData = useSelector((state: RootState) => state.user.data);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -59,7 +62,7 @@ const EditProfile = () => {
     message: "",
   });
 
-  const [error, setError] = useState<ValidationError>({})
+  const [error, setError] = useState<ValidationError>({});
 
   const handleNameValidation = () => {
     return validateName(name, setError);
@@ -70,37 +73,41 @@ const EditProfile = () => {
   };
 
   const handlePasswordValidation = () => {
-    return validatePasswords(currentPassword, newPassword, confirmPassword, setError);
+    return validatePasswords(
+      currentPassword,
+      newPassword,
+      confirmPassword,
+      setError
+    );
   };
 
   const handleProfilePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    console.log(files,"image")
+    console.log(files, "image");
     if (files && files[0]) {
       const file = files[0];
 
-      if(handleProfilePictureValidation(file)){
+      if (handleProfilePictureValidation(file)) {
         setProfilePicture(file);
       } else {
-        if(fileInputRef.current){
-          fileInputRef.current.value = '';
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
         }
-        toast.error(error.profilePicture || "Invalid image file")
+        toast.error(error.profilePicture || "Invalid image file");
       }
     }
   };
 
   const triggerFileInput = (): void => {
-    console.log("triggerfile")
+    console.log("triggerfile");
     if (fileInputRef.current) {
-      console.log("clicked",fileInputRef.current)
+      console.log("clicked", fileInputRef.current);
       fileInputRef.current.click();
     }
   };
 
   const handleUpdatePersonalInfo = async (): Promise<void> => {
-
-    if(!handleNameValidation()){
+    if (!handleNameValidation()) {
       toast.error("Please fix the error before saving");
       return;
     }
@@ -111,33 +118,33 @@ const EditProfile = () => {
     }
 
     try {
-      
       let profileUrl = null;
-  
-      if(profilePicture){
+
+      if (profilePicture) {
         profileUrl = await UploadImage(profilePicture);
       }
-  
+
       let data = {
         userName: name,
         email: userData?.email || "",
-        profile: profileUrl || userData?.profileImage
+        profile: profileUrl || userData?.profileImage,
       };
-  
-      await dispatch(updateUserNameAction(data));
-  
-      await dispatch(getUserDataAction());
-  
-        setPersonalInfoStatus({
-          success: true,
-          error: false,
-          message: "Personal information updated successfully!",
-        });
-  
-        setTimeout(() => {
-          setPersonalInfoStatus({ success: false, error: false, message: "" });
-        }, 3000);
 
+      const r = await dispatch(updateUserNameAction(data));
+      console.log(r, "updateUserNameAction response");
+
+      const res = await dispatch(getUserDataAction());
+      console.log(res, "getUserDataAction response");
+
+      setPersonalInfoStatus({
+        success: true,
+        error: false,
+        message: "Personal information updated successfully!",
+      });
+
+      setTimeout(() => {
+        setPersonalInfoStatus({ success: false, error: false, message: "" });
+      }, 3000);
     } catch (error) {
       setPersonalInfoStatus({
         success: false,
@@ -145,11 +152,9 @@ const EditProfile = () => {
         message: "Failed to update profile. Please try again.",
       });
     }
-
   };
 
   const handleUpdatePassword = async () => {
-
     if (!handlePasswordValidation()) {
       toast.error("Please fix the password errors before updating");
       return;
@@ -202,7 +207,6 @@ const EditProfile = () => {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen bg-background">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="flex justify-between items-center mb-6">
@@ -237,7 +241,13 @@ const EditProfile = () => {
                       className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-indigo-100 to-purple-100 border-4 border-background dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center cursor-pointer relative group"
                       onClick={triggerFileInput}
                     >
-                      {userData?.profileImage ? (
+                      {profilePicture ? (
+                        <img
+                          src={URL.createObjectURL(profilePicture)}
+                          className="w-full h-full object-cover"
+                          alt="Profile Preview"
+                        />
+                      ) : userData?.profileImage ? (
                         <img
                           src={userData?.profileImage}
                           className="w-full h-full object-cover"
@@ -423,7 +433,6 @@ const EditProfile = () => {
           </Tabs>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

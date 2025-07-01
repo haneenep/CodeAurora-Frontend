@@ -1,5 +1,3 @@
-import Footer from "@/components/common/users/Footer";
-import Header from "@/components/common/users/Header";
 import Button from "@/components/common/skeleton/FormSubmitButton";
 import TechIcon from "@/components/common/skeleton/FormTechIcon";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +13,7 @@ import { sendVerificationEmail } from "@/redux/store/actions/auth/sendVerificati
 import { googleAuthAction } from "@/redux/store/actions/auth/googleAuthAction";
 import { signupAction } from "@/redux/store/actions/auth/signupActions";
 import { setUserData } from "@/redux/store/slices/user";
+import PasswordField from "@/components/common/auth/PasswordField";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -88,7 +87,6 @@ const Signup = () => {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen bg-gray-50 dark:bg-slate-800 flex items-center justify-center p-4 relative overflow-hidden">
         {/* Static Tech Icons Background */}
         <div className="absolute inset-0 overflow-hidden">
@@ -167,14 +165,6 @@ const Signup = () => {
               width="380"
             />
 
-            {/* GitHub Sign In */}
-            {/* <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 dark:hover:bg-gray-800 rounded-lg hover:bg-gray-50 transition-colors">
-              <Github className="w-6 h-6" />
-              <span className="text-gray-700 dark:text-gray-300">
-                Sign in with GitHub
-              </span>
-            </button> */}
-
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -203,13 +193,13 @@ const Signup = () => {
                   placeholder="Email address"
                   name="email"
                 />
-                <InputField
-                  type="password"
+                <PasswordField
+                  showDuration={2000}
                   placeholder="Password"
                   name="password"
                 />
-                <InputField
-                  type="password"
+                <PasswordField
+                  showDuration={2000}
                   placeholder="Confirm Password"
                   name="confirmPassword"
                 />
@@ -227,7 +217,6 @@ const Signup = () => {
           </p>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

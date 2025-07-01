@@ -21,7 +21,7 @@ const StyledWrapper = styled.div`
     border-radius: 0.75rem;
     cursor: pointer;
     border: 0;
-    background: linear-gradient(to right, rgb(79, 70, 229), rgb(147, 51, 234));
+    background: rgb(79, 70, 229); /* indigo-600 */
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -32,7 +32,7 @@ const StyledWrapper = styled.div`
   }
 
   button:hover {
-    background: linear-gradient(to right, rgb(67, 56, 202), rgb(126, 34, 206));
+    background: rgb(67, 56, 202); /* indigo-700 */
     transform: scale(1.02);
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   }
@@ -44,11 +44,11 @@ const StyledWrapper = styled.div`
 
   @media (prefers-color-scheme: dark) {
     button {
-      background: linear-gradient(to right, rgb(99, 102, 241), rgb(168, 85, 247));
+      background: rgb(99, 102, 241); /* indigo-500 for better contrast in dark mode */
     }
 
     button:hover {
-      background: linear-gradient(to right, rgb(79, 70, 229), rgb(147, 51, 234));
+      background: rgb(79, 70, 229); /* indigo-600 */
     }
   }
 `;

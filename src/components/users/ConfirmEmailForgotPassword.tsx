@@ -1,67 +1,73 @@
-import { useState } from 'react';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ArrowLeft, Loader2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Formik, Form } from 'formik';
-import InputField from '../common/skeleton/InputField';
-import { ForgotMailSchema } from '@/utils/validationSchemas/forgotMailSchema';
-import { useAppDispatch } from '@/hooks/useRedux';
-import { findUserEmailAction } from '@/redux/store/actions/auth/findEmailAction';
-import { toast } from 'sonner';
-import { forgotPasswordMailAction } from '@/redux/store/actions/auth/forgotPasswordMailAction';
-
+import { useState } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Formik, Form } from "formik";
+import InputField from "../common/skeleton/InputField";
+import { ForgotMailSchema } from "@/utils/validationSchemas/forgotMailSchema";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { findUserEmailAction } from "@/redux/store/actions/auth/findEmailAction";
+import { toast } from "sonner";
+import { forgotPasswordMailAction } from "@/redux/store/actions/auth/forgotPasswordMailAction";
 
 interface FormValues {
   email: string;
 }
 
 const ConfirmEmailForgotPassword = () => {
+  const initialValues: FormValues = {
+    email: "",
+  };
 
-    const initialValues: FormValues = {
-      email: '',
-    };
-
-    const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const [isSuccess, setIsSuccess] = useState(false);
-  const [serverError, setServerError] = useState('');
-
+  const [serverError, setServerError] = useState("");
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: any) => {
-    setServerError('');
+    setServerError("");
 
-    console.log(values.email,"email valu")
+    console.log(values.email, "email valu");
 
     try {
-        const response = await dispatch(findUserEmailAction(values.email));
+      const response = await dispatch(findUserEmailAction(values.email));
 
-        console.log(response,"useremailaction")
+      console.log(response, "useremailaction");
 
-        await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
-        if(!response.payload.success){
-            toast.error("Not an existing email",{
-                description: "signup please!!",
-                position: "top-right"
-            });
-        } else {
-            const responseForgotMail = await dispatch(forgotPasswordMailAction(values.email));
+      if (!response.payload.success) {
+        toast.error("Not an existing email", {
+          description: "signup please!!",
+          position: "top-right",
+        });
+      } else {
+        const responseForgotMail = await dispatch(
+          forgotPasswordMailAction(values.email)
+        );
 
-            console.log(responseForgotMail)
-            if(responseForgotMail.payload.isGAuth){
-              toast.error("This user password can't be resetted",{
-                description: "This account is logged in google",
-                position: "top-right"
-              });
-              return;
-            }
-            setIsSuccess(true);
+        console.log(responseForgotMail);
+        if (responseForgotMail.payload.isGAuth) {
+          toast.error("This user password can't be resetted", {
+            description: "This account is logged in google",
+            position: "top-right",
+          });
+          return;
         }
+        setIsSuccess(true);
+      }
     } catch (err) {
-      setServerError('Something went wrong. Please try again.');
+      setServerError("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -95,7 +101,8 @@ const ConfirmEmailForgotPassword = () => {
                 Forgot Password?
               </CardTitle>
               <CardDescription className="text-center text-base">
-                No worries! Enter your email and CodeAurora will send you reset instructions.
+                No worries! Enter your email and CodeAurora will send you reset
+                instructions.
               </CardDescription>
             </div>
           </CardHeader>
@@ -125,7 +132,7 @@ const ConfirmEmailForgotPassword = () => {
 
                     <Button
                       type="submit"
-                      className="w-full h-12 text-base font-medium bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 text-white transition-colors"
+                      className="w-full h-12 text-base font-medium bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white transition-colors"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
@@ -134,7 +141,7 @@ const ConfirmEmailForgotPassword = () => {
                           Sending Instructions...
                         </div>
                       ) : (
-                        'Reset Password'
+                        "Reset Password"
                       )}
                     </Button>
                   </Form>
@@ -143,7 +150,8 @@ const ConfirmEmailForgotPassword = () => {
             ) : (
               <Alert className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-900 text-base">
                 <AlertDescription className="text-green-800 dark:text-green-200">
-                  Check your email for password reset instructions. If you don't see it, check your spam folder.
+                  Check your email for password reset instructions. If you don't
+                  see it, check your spam folder.
                 </AlertDescription>
               </Alert>
             )}
@@ -151,10 +159,10 @@ const ConfirmEmailForgotPassword = () => {
 
           <CardFooter className="flex justify-center">
             <span className="text-muted-foreground text-base">
-              Remember your password?{' '}
-              <Link 
-                to="/signin" 
-                className="text-orange-600 dark:text-orange-400 font-medium"
+              Remember your password?{" "}
+              <Link
+                to="/signin"
+                className="text-indigo-600 dark:text-indigo-400 font-medium"
               >
                 Log in
               </Link>
